@@ -1,17 +1,12 @@
 package pe.edu.upeu.LP2_clase01.entity;
 
-import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,19 +18,21 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name="categorias")
-public class Categoria {
+@Table(name="libro")
+public class Libro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
-	@Column(name="nombre")
-	private String nombre;
+	@Column(name="titulo")
+	private String titulo;
+	@Column(name="paginas")
+	private int paginas;
+	@Column(name="edicion")
+	private String edicion;
 	@Column(name="estado")
 	private char estado;
-	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "categoria")
-	@JsonIgnore
-	private Set<Seccion> secciones;
-	
+	@ManyToOne
+	@JoinColumn(name="seccion_id", nullable = false)
+	private Seccion seccion;
 }

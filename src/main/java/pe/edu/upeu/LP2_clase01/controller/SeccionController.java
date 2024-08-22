@@ -82,9 +82,10 @@ public class SeccionController {
 
 			Optional<Seccion> c = seccionService.read(id);
 			if(c.isEmpty()) {
-				return new ResponseEntity<>(seccionService.update(cat), HttpStatus.OK);
-			}else {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}else {
+				
+				return new ResponseEntity<>(seccionService.update(cat), HttpStatus.OK);
 			}		
 		
 	}
