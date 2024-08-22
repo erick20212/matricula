@@ -52,10 +52,14 @@ public class SeccionController {
 		
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Seccion> getSeccionId(@PathVariable("id") Long id){
+	public ResponseEntity<?> getSeccionId(@PathVariable("id") Long id){
 		try {
-			Seccion c = seccionService.read(id).get();
-			return new ResponseEntity<>(c, HttpStatus.CREATED);
+			Optional<Seccion> c = seccionService.read(id);
+			if(c.isEmpty()) {
+				return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(c, HttpStatus.OK);
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
