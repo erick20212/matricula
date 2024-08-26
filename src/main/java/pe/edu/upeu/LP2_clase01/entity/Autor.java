@@ -1,10 +1,14 @@
 package pe.edu.upeu.LP2_clase01.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +34,7 @@ public class Autor {
 	private String pais;
 	@Column(name="estado")
 	private char estado;
+	
+	@ManyToMany(mappedBy = "autores")
+	private Set<Libro> books = new HashSet<>();
 }
