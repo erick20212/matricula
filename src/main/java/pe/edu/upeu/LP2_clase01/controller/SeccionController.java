@@ -20,7 +20,7 @@ import pe.edu.upeu.LP2_clase01.entity.Seccion;
 import pe.edu.upeu.LP2_clase01.service.SeccionService;
 
 @RestController
-@RequestMapping("/secciones")
+@RequestMapping("/api/secciones")
 public class SeccionController {
 
 	@Autowired

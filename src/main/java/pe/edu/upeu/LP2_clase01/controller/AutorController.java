@@ -16,24 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import pe.edu.upeu.LP2_clase01.entity.Categoria;
-import pe.edu.upeu.LP2_clase01.service.CategoriaService;
+import pe.edu.upeu.LP2_clase01.entity.Autor;
+import pe.edu.upeu.LP2_clase01.service.AutorService;
 
 @RestController
-@RequestMapping("/api/categorias")
-public class CategoriaController {
-
+@RequestMapping("/api/autores")
+public class AutorController {
 	@Autowired
-	private CategoriaService categoriaService;
+	private AutorService autorService;
 	
 	@GetMapping
-	public ResponseEntity<List<Categoria>> readAll(){
+	public ResponseEntity<List<Autor>> readAll(){
 		try {
-			List<Categoria> categorias = categoriaService.readAll();
-			if(categorias.isEmpty()) {
+			List<Autor> Autors = autorService.readAll();
+			if(Autors.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}
-			return new ResponseEntity<>(categorias, HttpStatus.OK);
+			return new ResponseEntity<>(Autors, HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -41,9 +40,9 @@ public class CategoriaController {
 		
 	}
 	@PostMapping
-	public ResponseEntity<Categoria> crear(@Valid @RequestBody Categoria cat){
+	public ResponseEntity<Autor> crear(@Valid @RequestBody Autor cat){
 		try {
-			Categoria c = categoriaService.create(cat);
+			Autor c = autorService.create(cat);
 			return new ResponseEntity<>(c, HttpStatus.CREATED);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -52,9 +51,9 @@ public class CategoriaController {
 		
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> getCategoriaId(@PathVariable("id") Long id){
+	public ResponseEntity<Autor> getAutorId(@PathVariable("id") Long id){
 		try {
-			Categoria c = categoriaService.read(id).get();
+			Autor c = autorService.read(id).get();
 			return new ResponseEntity<>(c, HttpStatus.CREATED);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -63,9 +62,9 @@ public class CategoriaController {
 		
 	}
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Categoria> delCategoria(@PathVariable("id") Long id){
+	public ResponseEntity<Autor> delAutor(@PathVariable("id") Long id){
 		try {
-			categoriaService.delete(id);
+			autorService.delete(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -74,11 +73,11 @@ public class CategoriaController {
 		
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateCategoria(@PathVariable("id") Long id, @Valid @RequestBody Categoria cat){
+	public ResponseEntity<?> updateAutor(@PathVariable("id") Long id, @Valid @RequestBody Autor cat){
 
-			Optional<Categoria> c = categoriaService.read(id);
+			Optional<Autor> c = autorService.read(id);
 			if(c.isEmpty()) {
-				return new ResponseEntity<>(categoriaService.update(cat), HttpStatus.OK);
+				return new ResponseEntity<>(autorService.update(cat), HttpStatus.OK);
 			}else {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 			}		

@@ -2,9 +2,9 @@ package pe.edu.upeu.LP2_clase01.entity;
 
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,7 +46,7 @@ public class Libro {
 	@JoinColumn(name="editorial_id", nullable = false)
 	private Editorial editorial;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name="libro_autor",
 			joinColumns = @JoinColumn(name="libro_id", referencedColumnName = "id"),
