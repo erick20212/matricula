@@ -1,5 +1,6 @@
 package pe.edu.upeu.LP2_clase01.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,11 +13,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,38 +28,31 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name="libro")
-public class Libro {
+@Table(name="prestamos")
+public class Prestamo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private Long id;
-	@Column(name="titulo")
-	private String titulo;
-	@Column(name="paginas")
-	private int paginas;
-	@Column(name="edicion")
-	private String edicion;
-	@Column(name="estado")
-	private char estado;
+    private Long id=0L;	
+	@Column(name = "FECHA_PRESTAMO")	
+	@Temporal(TemporalType.TIMESTAMP)  
+    private Date fechap;	
+	@Column(name = "FECHA_ENTREGA")
+	@Temporal(TemporalType.DATE)
+    private Date fechae;	
+	@Column(name = "ESTADO")
+    private char estado;
 	
 	@ManyToOne
-	@JoinColumn(name="seccion_id", nullable = false)
-	private Seccion seccion;
+	@JoinColumn(name="lector_id", nullable = false)
+	private Lector lector;
 	
 	@ManyToOne
-	@JoinColumn(name="editorial_id", nullable = false)
-	private Editorial editorial;
+	@JoinColumn(name="usuario_id", nullable = false)
+	private Usuario usuario;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinTable(
-			name="libro_autor",
-			joinColumns = @JoinColumn(name="libro_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name="autor_id", referencedColumnName = "id")
-	)
-	private Set<Autor> autores;
-	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "libro")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "prestamo")
 	@JsonIgnore
 	private Set<DetallePrestamo> detalles;
+	
 }

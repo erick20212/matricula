@@ -14,8 +14,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,38 +27,33 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name="libro")
-public class Libro {
+@Table(name="usuarios")
+public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
-	@Column(name="titulo")
-	private String titulo;
-	@Column(name="paginas")
-	private int paginas;
-	@Column(name="edicion")
-	private String edicion;
+	@Column(name="username")
+	private String username;
+	@Column(name="password")
+	private String password;
 	@Column(name="estado")
 	private char estado;
 	
-	@ManyToOne
-	@JoinColumn(name="seccion_id", nullable = false)
-	private Seccion seccion;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "empleado_id", referencedColumnName = "id")
+	private Empleado empleado;
 	
-	@ManyToOne
-	@JoinColumn(name="editorial_id", nullable = false)
-	private Editorial editorial;
-	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToMany
 	@JoinTable(
-			name="libro_autor",
-			joinColumns = @JoinColumn(name="libro_id", referencedColumnName = "id"),
-			inverseJoinColumns = @JoinColumn(name="autor_id", referencedColumnName = "id")
-	)
-	private Set<Autor> autores;
+			name="usuario_rol",
+			joinColumns = @JoinColumn(name="usuario_id", referencedColumnName = "id"),
+			inverseJoinColumns = @JoinColumn(name="rol_id", referencedColumnName = "id")
+			)
+	private Set<Rol> roles;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "libro")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "usuario")
 	@JsonIgnore
-	private Set<DetallePrestamo> detalles;
+	private Set<Prestamo> prestamos;	
+	
 }
