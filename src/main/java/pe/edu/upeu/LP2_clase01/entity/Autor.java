@@ -1,7 +1,10 @@
+
 package pe.edu.upeu.LP2_clase01.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,5 +39,6 @@ public class Autor {
 	private char estado;
 	
 	@ManyToMany(mappedBy = "autores")
+	@JsonIgnore
 	private Set<Libro> books = new HashSet<>();
 }
